@@ -222,9 +222,9 @@ datafilename=strcat('spider_',full_spider_sequence,'x',num2str(num_spider_peptid
 psffilename=strcat('spider_',full_spider_sequence,'x',num2str(num_spider_peptide),...
                 '_silkworm_',full_silkworm_sequence,'x',num2str(num_silkworm_peptide),...
                 '.psf');
-psffilename_water_only=strcat('spider_',full_spider_sequence,'x',num2str(num_spider_peptide),...
+psffilename_protein_only=strcat('spider_',full_spider_sequence,'x',num2str(num_spider_peptide),...
                 '_silkworm_',full_silkworm_sequence,'x',num2str(num_silkworm_peptide),...
-                '_water_only.psf');
+                '_protein_only.psf');
 psffilename_evap=strcat('spider_',full_spider_sequence,'x',num2str(num_spider_peptide),...
                 '_silkworm_',full_silkworm_sequence,'x',num2str(num_silkworm_peptide),...
                 '_evap.psf');
@@ -509,11 +509,11 @@ fclose(fp);
 
 
 %%% creating the water only psf file
-disp(sprintf('creating the corresponding psf file, %s',psffilename_water_only));
+disp(sprintf('creating the corresponding psf file, %s',psffilename_protein_only));
 
 % write intro
-fp=fopen(psffilename_water_only,'w');
-fprintf(fp,'PSF %s\n\n',psffilename_water_only);
+fp=fopen(psffilename_protein_only,'w');
+fprintf(fp,'PSF %s\n\n',psffilename_protein_only);
 fprintf(fp,'2 !NTITLE\n');
 fprintf(fp,'REMARKS  h %d, sp-a %d, sp-b %d,',tot_h,tot_spider_a,tot_spider_b);
 %%% XXX add the number of c beads to the water only psf file information
