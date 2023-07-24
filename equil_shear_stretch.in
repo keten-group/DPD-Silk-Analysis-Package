@@ -82,41 +82,48 @@ neigh_modify	delay 5
 group	chains type 1 2 4 5
 group	water type 3
 
-#timestep 0.04
-#fix 1 all nve/limit 0.01
-#run 10000
-#unfix 1
-
 reset_timestep 0
-#timestep 0.04
+
 ### Equilibration Run ###
 velocity	all create ${T} ${seed} dist gaussian
 dump		myDump-equil chains dcd ${dumpfreq} equil_${seed}.dcd
+dump		myDump-equil-unwrap chains dcd ${dumpfreq} equil_${seed}_unwrap.dcd
+dump_modify 		myDump-equil-unwrap unwrap yes
 fix			1 all nve
 run			${tot_equil_step}
 
 write_restart	equil_${seed}.restart
 undump			myDump-equil
+undump 			myDump-equil-unwrap
 
 ### Shear Run ###
+restart ${dumpfreq} restart1 restart2
 fix		shear1 all deform 1 xy erate ${shearrate} units box remap v
 dump	myDump-shear chains dcd ${dumpfreq} shear_${seed}.dcd
+dump	myDump-shear-unwrap chains dcd ${dumpfreq} shear_${seed}_unwrap.dcd
+dump_modify 		myDump-shear-unwrap unwrap yes
 run		${tot_shear_step}
 
 write_restart	shear_${seed}.restart
 undump			myDump-shear
+undump 			myDump-shear-unwrap
 
 ### Equilibration after Shear to Relax stress ###
 unfix	shear1
 dump	myDump-equilaftershear chains dcd ${dumpfreq} equil_after_shear_${seed}.dcd
+dump	myDump-equilaftershear-unwrap chains dcd ${dumpfreq} equil_after_shear_${seed}_unwrap.dcd
+dump_modify 		myDump-equilaftershear-unwrap unwrap yes
 run		${tot_equilafter_step}
 
 write_restart	shear_relaxed_${seed}.restart
 undump			myDump-equilaftershear
+undump 			myDump-equilaftershear-unwrap
 
 ### Stretch by two times ###
 fix		2 all deform ${nfreq} x scale 2.0 y volume z volume
 dump	myDump-stretch chains dcd ${dumpfreq2} stretch_${seed}.dcd
+dump	myDump-stretch-unwrap chains dcd ${dumpfreq2} stretch_${seed}_unwrap.dcd
+dump_modify 	myDump-stretch-unwrap unwrap yes
 
 compute	stress_a all stress/atom NULL
 compute	stress_c chains stress/atom NULL
@@ -128,4 +135,5 @@ fix		stressout_c chains ave/time ${nevery} ${nrepeat} ${nfreq} c_s_c[1] c_s_c[2]
 
 run		${tot_stretch_step}
 undump	myDump-stretch
+undump 	myDump-stretch-unwrap
 
