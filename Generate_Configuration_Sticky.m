@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Spider SIlk Experiment Configuration Generation Code %%%
+%%% Spider Silk Experiment Configuration Generation Code %%%
 %%% 1st version, July 17th, 2012 Seunghwa Ryu            %%%
 %%% 2nd version, July 20th, 2012 Seunghwa Ryu            %%%
 %%% 3rd version, Aug 8th, 2012 Seunghwa Ryu              %%%
@@ -11,6 +11,9 @@
 %%%                                                      %%%
 %%%          generate  lammps data input file, psf file  %%%
 %%%       still this code does not have angle & dihedral %%%
+%%% 6th version, July 24th, 2023 Timothy Russell         %%%
+%%%         added capability to generate 'sticky'        %%%
+%%%         terminal ends in the form of bead type 'c'.  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -61,7 +64,7 @@ num_hydrophobic_spider=5; % number of hydrophobic bead in A (hydrophobic) motif
 num_hydrophilic_spider=7; % number of hydrophilic bead in B (hydrophilic) motif
 
 %%% XXX The number of sticky end beads in each end of the termninal motif
-num_sticky_spider=13;
+num_sticky_spider=0;
 
 
 repeat_motif_spider='A1B1'; % repeat motif description ( A1B3, A1B1, A2B2 for example )
