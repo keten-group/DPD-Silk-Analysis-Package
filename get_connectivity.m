@@ -25,7 +25,7 @@ total_connections=0;
 total_connection_res=0;
 res_connection_matrix=zeros(max_resid,1);
 links_per_cluster=zeros(Ncluster,1);
-link_resid_of_each_cluster=zeros(Ncluster,500);
+link_resid_of_each_cluster=zeros(Ncluster,1000);
 
 for i=1:max_resid
 count=0;
