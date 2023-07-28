@@ -50,7 +50,7 @@ spider_a_index=1;   spider_b_index=2;   w_index = 3;
 spider_c_index=6;
 
 
-%%% XXX histidine tag represented as a b bead
+%%% histidine tag represented as a b bead
 nbeadtype=6; spider_h_index = 2; silkworm_a_index=4; silkworm_b_index=5; 
 
 % other choices
@@ -64,14 +64,16 @@ boxsize_x=60.0;
 boxsize_y=40.0;
 boxsize_z=40.0;
 
-% spider silk parameter
+% spider silk parameters
 num_repeat_spider=2; % number of repeat motif
-num_histidine_spider=16;  % number of histidine bead in H motif, default=16
+num_histidine_spider=3;  % number of histidine beads in H motif, default=3.
+                         % this corresponds to ~3 to 1 mapping for a
+                         % decahistidine tag.
 num_hydrophobic_spider=5; % number of hydrophobic bead in A (hydrophobic) motif
 num_hydrophilic_spider=7; % number of hydrophilic bead in B (hydrophilic) motif
 
-%%% XXX The number of sticky end beads in each end of the termninal motif
-num_sticky_spider=0;
+%%% The number of sticky end beads in each terminal region.
+num_sticky_spider=0; % default is 0 to ignore terminal regions.
 
 
 repeat_motif_spider='A1B1'; % repeat motif description ( A1B3, A1B1, A2B2 for example )
@@ -93,7 +95,7 @@ relative_fraction_of_silkworm_silk=1-relative_fraction_of_spider_silk;
 
 %%% beyond this point, processing starts %%%
 
-% obtaining the full sequence for spider
+% obtain the full sequence for spider silk
 num_bead_repeat_motif_spider=(...
     (str2num(repeat_motif_spider(2)))*(...
     (repeat_motif_spider(1)=='A')*num_hydrophobic_spider+...
@@ -119,13 +121,13 @@ spider_bead_type=spider_b_index*ones(1,num_bead_eachpolymer_spider);
 %%% XXX sequence of the peptide
 %%% XXX the sticky terminal end will be dictated with a 'C'
 typeindex=num_sticky_spider+num_histidine_spider;
-if (num_histidine_spider>0 & num_sticky_spider==0)
+if (num_histidine_spider>0 && num_sticky_spider==0)
     full_spider_sequence='H';
     spider_bead_type(1:num_histidine_spider)= spider_h_index*ones(1,num_histidine_spider);
 %%% XXX if the both the number of histidine beads and sticky beads are
 %%% XXX greater than 0 add the sticky end to the beginning of the sequence
 %%% XXXthen the histidine tag
-elseif (num_histidine_spider>0 & num_sticky_spider>0)
+elseif (num_histidine_spider>0 && num_sticky_spider>0)
     full_spider_sequence='HC';
 %%% XXX the initial group of spider beads will be C beads
     spider_bead_type(1:num_histidine_spider)=spider_h_index*ones(1,num_histidine_spider);
@@ -133,7 +135,7 @@ elseif (num_histidine_spider>0 & num_sticky_spider>0)
     spider_bead_type(num_histidine_spider+1:num_histidine_spider+num_sticky_spider)=spider_c_index*ones(1,num_sticky_spider);
 %%% XXX the final group will be the other set of C beads
     spider_bead_type(num_bead_eachpolymer_spider-num_sticky_spider+1:end)=spider_c_index*ones(1,num_sticky_spider);
-elseif (num_histidine_spider==0 & num_sticky_spider>0)
+elseif (num_histidine_spider==0 && num_sticky_spider>0)
 %%% XXX no histidine tag so the beginning of the peptide is only C beads
     full_spider_sequence='C';
     spider_bead_type(1:num_sticky_spider)=spider_c_index*ones(1,num_sticky_spider);
