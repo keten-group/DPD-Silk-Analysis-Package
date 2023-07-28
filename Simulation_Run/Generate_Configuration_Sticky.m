@@ -9,20 +9,30 @@
 %%% 5th version, Jan 08th, 2013 Seunghwa Ryu             %%%
 %%%              publication level, with 2 bond styles   %%%
 %%%                                                      %%%
-%%%          generate  lammps data input file, psf file  %%%
-%%%       still this code does not have angle & dihedral %%%
 %%% 6th version, July 24th, 2023 Timothy Russell         %%%
 %%%         added capability to generate 'sticky'        %%%
 %%%         terminal ends in the form of bead type 'c'.  %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%                                                      %%%
+%%%       generate  lammps data input file, psf file     %%%
+%%%       still this code does not have angle & dihedral %%%
+%%%                                                      %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ALL ADDITIONS TO ORIGINAL SCRIPT DICTATED WITH "XXX" %%%
 %%% including additional comments for readability        %%%
 %%% questions to come back to a represented with "???"   %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+%%%                      PLEASE CITE                     %%%
+%%% 1.	Lin, S., Ryu, S., Tokareva, O. et al.            %%%
+%%% Predictive modelling-based design and experiments for%%%
+%%% synthesis and spinning of bioinspired silk fibres.   %%%
+%%% Nat Commun 6, 6892 (2015).                           %%%
+%%% https://doi.org/10.1038/ncomms7892                   %%%
+%%% 2.	Nae-Gyune Rim, Erin G. Roberts, Davoud Ebrahimi  %%%
+%%% et al. Predicting Silk Fiber Mechanical Properties   %%%
+%%% through Multiscale Simulation and Protein Design,    %%%
+%%% ACS Biomaterials Science & Engineering 2017 3 (8),   %%%
+%%% 1542-1556 DOI: 10.1021/acsbiomaterials.7b00292       %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% input variable section               %%%
@@ -31,7 +41,7 @@
 % total number of bead type, change when different indexes are used for
 % spider h, silkworm a, silkworm b beads
 
-% default choice in the paper
+% default choice in the papers
 spider_a_index=1;   spider_b_index=2;   w_index = 3; 
 
 %%% XXX new index for the sticky terminal end, represented by the c bead
@@ -40,17 +50,14 @@ spider_a_index=1;   spider_b_index=2;   w_index = 3;
 spider_c_index=6;
 
 
-%%% XXX histadine tag represented as a b bead
+%%% XXX histidine tag represented as a b bead
 nbeadtype=6; spider_h_index = 2; silkworm_a_index=4; silkworm_b_index=5; 
 
 % other choices
 % nbeadtype=6; spider_h_index = 6; silkworm_a_index=4; silkworm_b_index=5;
 % nbeadtype=3; spider_h_index = 2; silkworm_a_index=1; silkworm_b_index=2;
 
-
-%%% ??? unsure if the number of bond types holds or if new bond types  
-%%% ??? are required to model the sticky c beads
-nbondtype=2; % total number of bond type, 2 for 'a'-'a', 1 for others
+nbondtype=2; % total number of bond type. Type 2 for 'a'-'a' bond. Type 1 for others.
 rho=3; % density of DPD bead in the simulation         
 d=1.025; % initial polymer bead-to-bead distance
 boxsize_x=60.0;
