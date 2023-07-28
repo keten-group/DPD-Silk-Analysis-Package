@@ -10,7 +10,7 @@ module load octave # Load octave on a Linux machine under bash.
 module load python/anaconda3.6 # Load python/anaconda3.6 on a Linux machine under bash.
 octave separate_coordinate_single.m
 
-for i in {0..7..1} # Change this to loop through the number of frames in equil_{randomseed}.dcd
+for i in {0..7..1} # Change this to loop through the number of frames in equil_{randomseed}.dcd divided by the -stride specified by the ./catdcd command above.
   do
     cp DFS.m Nbead.txt network_noprint.py get_coordinate.m get_connectivity.m equil_evolve_$i
     cd equil_evolve_$i
@@ -20,7 +20,7 @@ for i in {0..7..1} # Change this to loop through the number of frames in equil_{
     cd ..
   done
 
-for i in {0..14..1} # Change this to loop through the number of frames in shear_{randomseed}.dcd
+for i in {0..14..1} # Change this to loop through the number of frames in shear_{randomseed}.dcd divided by the -stride specified by the ./catdcd command above.
   do
     cp DFS.m Nbead.txt network_noprint.py get_coordinate.m get_connectivity.m shear_evolve_$i
     cd shear_evolve_$i
@@ -30,7 +30,7 @@ for i in {0..14..1} # Change this to loop through the number of frames in shear_
     cd ..
   done
 
-for i in {0..5..1} # Change this to loop through the number of frames in stretch_{randomseed}.dcd
+for i in {0..5..1} # Change this to loop through the number of frames in stretch_{randomseed}.dcd divided by the -stride specified by the ./catdcd command above.
   do
     cp DFS.m Nbead.txt network_noprint.py get_coordinate.m get_connectivity.m stretch_evolve_$i
     cd stretch_evolve_$i
