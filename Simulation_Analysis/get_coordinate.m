@@ -9,7 +9,6 @@
 %max_recursion_depth(30000);
 
 rcut = 0.85;
-NC_MAX=300;
 load('../Nbead.txt');
 filename ='coord.pdb';
 
