@@ -1,7 +1,8 @@
 close all;
+% get equil data
 timestep=0.03;dumpfreq=15000; % Change these to reflect parameters of equilibration run.
-Nequil=14; % Change to reflect the number of frames in equil_{randomseed}.dcd.
-Nshear=28; % Change to reflect the number of frames in shear_{randomseed}.dcd.
+Nequil=7; % Change to reflect the number of frames in equil_{randomseed}.dcd.
+Nshear=14; % Change to reflect the number of frames in shear_{randomseed}.dcd.
 Nstretch=5; % Change to reflect the number of frames in stretch_{randomseed}.dcd.
 Equil_data=zeros(Nequil,4);
 for index=1:Nequil
