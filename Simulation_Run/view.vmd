@@ -1,5 +1,5 @@
 package require topotools
-set data_filename "spider_HA1B1A1B1A1B1A1B1A1B1A1B1A1B1A1B1A1B1A1B1A1B1A1B1A1B1A1B1A1B1A1B1x394_silkworm_A1B1x0"
+set data_filename "spider_HA1B1A1B1x2134_silkworm_A1B1x0"
 
 topo readlammpsdata $data_filename.data bond
 

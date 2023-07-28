@@ -5,7 +5,7 @@
 units		lj
 
 # file name
-variable	name index spider_HA1B1A1B1x1440_silkworm_A1B1x0
+variable	name index spider_HA1B1A1B1x2134_silkworm_A1B1x0
 
 # random number seed
 variable	seed equal 11111
