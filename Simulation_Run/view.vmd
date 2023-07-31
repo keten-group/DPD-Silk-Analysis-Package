@@ -3,14 +3,17 @@ set data_filename "spider_HA1B1A1B1x2134_silkworm_A1B1x0"
 
 topo readlammpsdata $data_filename.data bond
 
-if { [file exists ${data_filename}_protein_only.psf] == 0} {
+# Write a psf file that is compatible with trajectories from equil_shear_stretch.in
+# Call this file ${data_filename}_protein_only_for_visualization.psf
+
+if { [file exists ${data_filename}_protein_only_for_visualization.psf] == 0} {
 	set protein [atomselect top "type 1 2 4 5 6"]
-	$protein writepsf ${data_filename}_protein_only.psf
+	$protein writepsf ${data_filename}_protein_only_for_visualization.psf
 }
 
 mol delete 0
 
-mol new ${data_filename}_protein_only.psf
+mol new ${data_filename}_protein_only_for_visualization.psf
 
 # load wrapped trajectories
 
