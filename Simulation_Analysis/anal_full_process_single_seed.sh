@@ -8,6 +8,7 @@
 
 module load octave # Load octave on a Linux machine under bash.
 module load python/anaconda3.6 # Load python/anaconda3.6 on a Linux machine under bash.
+module load matlab # Load matlab on a Linux machien under bash.
 octave separate_coordinate_single.m
 
 for i in {0..7..1} # Change this to loop through the number of frames in equil_{randomseed}.dcd divided by the -stride specified by the ./catdcd command above.
@@ -16,7 +17,7 @@ for i in {0..7..1} # Change this to loop through the number of frames in equil_{
     cd equil_evolve_$i
     octave get_coordinate.m
     python network_noprint.py
-    octave get_connectivity.m
+    matlab -nodisplay -r "get_connectivity ; exit" # get_connectivity.m was originally written to be run using octave. Here, we run it with matlab.
     cd ..
   done
 
@@ -26,7 +27,7 @@ for i in {0..14..1} # Change this to loop through the number of frames in shear_
     cd shear_evolve_$i
     octave get_coordinate.m
     python network_noprint.py
-    octave get_connectivity.m
+    matlab -nodisplay -r "get_connectivity ; exit" # get_connectivity.m was originally written to be run using octave. Here, we run it with matlab.
     cd ..
   done
 
@@ -36,6 +37,6 @@ for i in {0..5..1} # Change this to loop through the number of frames in stretch
     cd stretch_evolve_$i
     octave get_coordinate.m
     python network_noprint.py
-    octave get_connectivity.m
+    matlab -nodisplay -r "get_connectivity ; exit" # get_connectivity.m was originally written to be run using octave. Here, we run it with matlab.
     cd ..
   done

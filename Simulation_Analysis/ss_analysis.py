@@ -79,6 +79,6 @@ plt.plot(strain_data, stress_in_x*5.11, '.-',markersize=5)
 plt.ylabel('Effective Stress $\sigma_{eff}$ [MPa]',fontsize=15)
 plt.xlabel('Strain', fontsize=15)
 plt.xticks(np.arange(0,2.5,0.5),fontsize=15)
-plt.yticks(np.arange(0,6,0.5),fontsize=15)
+# plt.yticks(np.arange(0,6,0.5),fontsize=15)
 plt.savefig(f'{out_path}/effective_stress.png')
 
