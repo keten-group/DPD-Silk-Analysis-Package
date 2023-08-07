@@ -38,7 +38,8 @@ variable	maxrepCC equal 25.0 #same self repulsion for all beads
 
 # number of timesteps
 variable	dumpfreq equal 15000
-variable	dumpfreq2 equal 10000 # dump frequency for stretch simulation
+variable 	dumpfreqshear equal 15000
+variable	dumpfreqstretch equal 10000 # dump frequency for stretch simulation
 variable	tot_equil_step equal 210000
 variable	tot_shear_step equal 420000
 variable	tot_equilafter_step equal 150000
@@ -113,8 +114,8 @@ undump 			myDump-equil-unwrap
 ### Shear Run ###
 restart ${dumpfreq} restart1 restart2
 fix		shear1 all deform 1 xy erate ${shearrate} units box remap v
-dump	myDump-shear chains dcd ${dumpfreq} shear_${seed}.dcd
-dump	myDump-shear-unwrap chains dcd ${dumpfreq} shear_${seed}_unwrap.dcd
+dump	myDump-shear chains dcd ${dumpfreqshear} shear_${seed}.dcd
+dump	myDump-shear-unwrap chains dcd ${dumpfreqshear} shear_${seed}_unwrap.dcd
 dump_modify 		myDump-shear-unwrap unwrap yes
 run		${tot_shear_step}
 
@@ -135,8 +136,8 @@ undump 			myDump-equilaftershear-unwrap
 
 ### Stretch by two times ###
 fix		2 all deform ${nfreq} x scale 2.0 y volume z volume
-dump	myDump-stretch chains dcd ${dumpfreq2} stretch_${seed}.dcd
-dump	myDump-stretch-unwrap chains dcd ${dumpfreq2} stretch_${seed}_unwrap.dcd
+dump	myDump-stretch chains dcd ${dumpfreqstretch} stretch_${seed}.dcd
+dump	myDump-stretch-unwrap chains dcd ${dumpfreqstretch} stretch_${seed}_unwrap.dcd
 dump_modify 	myDump-stretch-unwrap unwrap yes
 
 compute	stress_a all stress/atom NULL
