@@ -5,7 +5,7 @@
 %%% 2nd version, 2012-08-13 Seunghwa Ryu  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-max_recursion_depth(30000);
+%max_recursion_depth(30000);
 
 % cluster analysis
 MAX_peptide_repeat=20; % this number must be larger than maximum peptide repeat
@@ -100,7 +100,7 @@ for i=1:length(ind_double)
         end
     end
     for i=1:length(nodeid_for_polymer)-1
-	if (nodeid_for_polymer(i)!=nodeid_for_polymer(i+1))
+	if (nodeid_for_polymer(i)~=nodeid_for_polymer(i+1))
 	    id1=nodeid_for_polymer(i);
 	    id2=nodeid_for_polymer(i+1);
 	    cluster_connectivity(id1,id2)=cluster_connectivity(id1,id2)+1;
