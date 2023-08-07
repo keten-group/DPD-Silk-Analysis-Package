@@ -30,6 +30,12 @@ variable	maxrepAG equal 27.0
 variable	EHB equal 3.53
 variable	hEHB equal 3.53		# in case different hEHB is used for 'a' between silkworm and spider
 
+# add the repulsive interaction parameters for the sticky terminal ends
+variable 	maxrepAC equal 35.0 #higher repulsion of A beads 
+variable 	maxrepBC equal 35.0 #higher repulsion of B beads 
+variable 	maxrepCW equal 40.0 #sticky end is hydrophillic so rep matches AW
+variable	maxrepCC equal 25.0 #same self repulsion for all beads
+
 # number of timesteps
 variable	dumpfreq equal 15000
 variable	dumpfreq2 equal 10000 # dump frequency for stretch simulation
@@ -69,6 +75,14 @@ pair_coeff	3 4 dpd 30.0 4.5 1.0
 pair_coeff	3 5 dpd ${maxrepGW} 4.5 1.0
 pair_coeff	4 5 dpd ${maxrepAG} 4.5 1.0
 
+#add the pair coefficients for the sticky terminal end
+pair_coeff	1 6 dpd ${maxrepAC} ${gamma} 1.0
+pair_coeff	2 6 dpd ${maxrepBC} ${gamma} 1.0
+pair_coeff	3 6 dpd ${maxrepCW} ${gamma} 1.0
+pair_coeff	4 6 dpd ${maxrepAC} ${gamma} 1.0
+pair_coeff	5 6 dpd ${maxrepBC} ${gamma} 1.0
+pair_coeff	6 6 dpd ${maxrepCC} ${gamma} 1.0
+
 ### bond setup ###
 bond_style	harmonic
 bond_coeff	1 118.5 1.025
@@ -79,7 +93,7 @@ special_bonds	lj 1.0 1.0 1.0 coul 1.0 1.0 1.0  # LAMMPS code changed so that DPD
 neighbor		1.0 bin
 neigh_modify	delay 5 
 
-group	chains type 1 2 4 5
+group	chains type 1 2 4 5 6
 group	water type 3
 
 reset_timestep 0
@@ -134,6 +148,7 @@ fix		stressout_a all ave/time ${nevery} ${nrepeat} ${nfreq} c_s_a[1] c_s_a[2] c_
 fix		stressout_c chains ave/time ${nevery} ${nrepeat} ${nfreq} c_s_c[1] c_s_c[2] c_s_c[3] c_s_c[4] c_s_c[5] c_s_c[6] file chains_stress_${seed}.txt
 
 run		${tot_stretch_step}
+
 undump	myDump-stretch
 undump 	myDump-stretch-unwrap
 
