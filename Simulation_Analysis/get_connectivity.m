@@ -5,8 +5,10 @@
 %%% 2nd version, 2012-08-13 Seunghwa Ryu  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%max_recursion_depth(30000);
+
 % cluster analysis
-MAX_peptide_repeat=12; % this number must be larger than maximum peptide repeat
+MAX_peptide_repeat=20; % this number must be larger than maximum peptide repeat
 disp('load cluster information');
 load('cluster_sizes.txt');
 load('clusters.txt');
@@ -25,7 +27,14 @@ total_connections=0;
 total_connection_res=0;
 res_connection_matrix=zeros(max_resid,1);
 links_per_cluster=zeros(Ncluster,1);
-link_resid_of_each_cluster=zeros(Ncluster,1000);
+
+ini_size=500; 
+link_resid_of_each_cluster=zeros(Ncluster,ini_size);
+% assign large size to link_resid_of_each_cluster when (tot_size-margin_size) entries are occupied
+add_size=200;
+add_link_resid_of_each_cluster=zeros(Ncluster,add_size);
+tot_size=ini_size;
+margin_size=5;
 
 for i=1:max_resid
 count=0;
@@ -59,6 +68,11 @@ for i=1:Ncluster
 		count=count+1;
 		link_resid_of_each_cluster(i,count)=temp(j);
 	    end
+        % assign larger size to link_resid_of_each_cluster when (tot_size-margin_size) entries are occupied
+        if (count==(tot_size-margin_size))
+            link_resid_of_each_cluster=cat(2,link_resid_of_each_cluster,add_link_resid_of_each_cluster);
+            tot_size = tot_size + add_size;
+        end
 	end
     end
 %    links_per_cluster(i)=count;
@@ -224,7 +238,8 @@ fclose(fp);
 
 fp=fopen('link_resid_of_each_cluster.txt','w');
 for i=1:Ncluster
-    for j=1:MAX_links_per_cluster
+    % for j=1:MAX_links_per_cluster % error: out of bound 500
+    for j=1:min(MAX_links_per_cluster,tot_size)
 	fprintf(fp,'%d ',link_resid_of_each_cluster(i,j));
     end
     fprintf(fp,'\n');
