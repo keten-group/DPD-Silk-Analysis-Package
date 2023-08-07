@@ -104,8 +104,7 @@ dump		myDump-equil chains dcd ${dumpfreq} equil_${seed}.dcd
 dump		myDump-equil-unwrap chains dcd ${dumpfreq} equil_${seed}_unwrap.dcd
 dump_modify 		myDump-equil-unwrap unwrap yes
 fix			1 all nve
-#run			${tot_equil_step}
-run			10
+run			${tot_equil_step}
 
 write_restart	equil_${seed}.restart
 undump			myDump-equil
@@ -117,8 +116,7 @@ fix		shear1 all deform 1 xy erate ${shearrate} units box remap v
 dump	myDump-shear chains dcd ${dumpfreq} shear_${seed}.dcd
 dump	myDump-shear-unwrap chains dcd ${dumpfreq} shear_${seed}_unwrap.dcd
 dump_modify 		myDump-shear-unwrap unwrap yes
-#run		${tot_shear_step}
-run			10
+run		${tot_shear_step}
 
 write_restart	shear_${seed}.restart
 undump			myDump-shear
@@ -129,8 +127,7 @@ unfix	shear1
 dump	myDump-equilaftershear chains dcd ${dumpfreq} equil_after_shear_${seed}.dcd
 dump	myDump-equilaftershear-unwrap chains dcd ${dumpfreq} equil_after_shear_${seed}_unwrap.dcd
 dump_modify 		myDump-equilaftershear-unwrap unwrap yes
-#run		${tot_equilafter_step}
-run			10
+run		${tot_equilafter_step}
 
 write_restart	shear_relaxed_${seed}.restart
 undump			myDump-equilaftershear
@@ -150,8 +147,8 @@ compute	s_c chains reduce sum c_stress_c[1] c_stress_c[2] c_stress_c[3] c_stress
 fix		stressout_a all ave/time ${nevery} ${nrepeat} ${nfreq} c_s_a[1] c_s_a[2] c_s_a[3] c_s_a[4] c_s_a[5] c_s_a[6] file all_stress_${seed}.txt
 fix		stressout_c chains ave/time ${nevery} ${nrepeat} ${nfreq} c_s_c[1] c_s_c[2] c_s_c[3] c_s_c[4] c_s_c[5] c_s_c[6] file chains_stress_${seed}.txt
 
-#run		${tot_stretch_step}
-run			10
+run		${tot_stretch_step}
+
 undump	myDump-stretch
 undump 	myDump-stretch-unwrap
 
