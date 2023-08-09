@@ -1,5 +1,6 @@
 package require topotools
 set data_filename "spider_HA1B1A1B1x2134_silkworm_A1B1x0"
+set seed 11111
 
 topo readlammpsdata $data_filename.data bond
 
@@ -17,17 +18,17 @@ mol new ${data_filename}_protein_only_for_visualization.psf
 
 # load wrapped trajectories
 
-mol addfile equil_11111.dcd waitfor all
-mol addfile shear_11111.dcd waitfor all
-mol addfile equil_after_shear_11111.dcd waitfor all
-mol addfile stretch_11111.dcd waitfor all
+mol addfile equil_${seed}.dcd waitfor all
+mol addfile shear_${seed}.dcd waitfor all
+mol addfile equil_after_shear_${seed}.dcd waitfor all
+mol addfile stretch_${seed}.dcd waitfor all
 
 # load unwrapped trajectories
 
-#mol addfile equil_11111_unwrap.dcd waitfor all
-#mol addfile shear_11111_unwrap.dcd waitfor all
-#mol addfile equil_after_shear_11111_unwrap.dcd waitfor all
-#mol addfile stretch_11111_unwrap.dcd waitfor all
+#mol addfile equil_${seed}_unwrap.dcd waitfor all
+#mol addfile shear_${seed}_unwrap.dcd waitfor all
+#mol addfile equil_after_shear_${seed}_unwrap.dcd waitfor all
+#mol addfile stretch_${seed}_unwrap.dcd waitfor all
 
 # set representation
 
