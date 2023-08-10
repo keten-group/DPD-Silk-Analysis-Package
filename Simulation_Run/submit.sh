@@ -14,4 +14,4 @@ module load mpi
 
 # run lammps
 lmp=/projects/p31412/Diblock_DPD_Protocol_JWong_2017/lammps-17Nov16/src/lmp_mpi # path to lammps executable
-mpirun -np 52 $lmp -in equil_shear_stretch_sticky.in -log lammps.log
+mpirun -np 52 $lmp -in equil_shear_stretch.in -log lammps.log
