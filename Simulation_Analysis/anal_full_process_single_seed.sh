@@ -11,7 +11,8 @@ module load python/anaconda3.6 # Load python/anaconda3.6 on a Linux machine unde
 module load matlab # Load matlab on a Linux machien under bash.
 octave separate_coordinate_single.m
 
-for i in {0..7..1} # Change this to loop through the number of frames in equil_{randomseed}.dcd divided by the -stride specified by the ./catdcd command above.
+for i in {1..7..1} # Change this to loop through the number of frames in equil_{randomseed}.dcd divided by the -stride specified by the ./catdcd command above.
+# Do not analyze the initial conformation to avoid writing 'cluster_connectivity.txt' for a very long time.
   do
     cp DFS.m Nbead.txt network_noprint.py get_coordinate.m get_connectivity.m equil_evolve_$i
     cd equil_evolve_$i
