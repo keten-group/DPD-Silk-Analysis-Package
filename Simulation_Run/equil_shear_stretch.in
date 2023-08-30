@@ -150,6 +150,7 @@ fix		stressout_c chains ave/time ${nevery} ${nrepeat} ${nfreq} c_s_c[1] c_s_c[2]
 
 run		${tot_stretch_step}
 
+write_restart	stretch_${seed}.restart
 undump	myDump-stretch
 undump 	myDump-stretch-unwrap
 
