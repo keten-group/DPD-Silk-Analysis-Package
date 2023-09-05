@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name="Ana R1-0.01erate"
+#SBATCH --job-name="network analysis"
 #SBATCH -A p31412
 #SBATCH -p normal    ## partition
 #SBATCH -N 1  ## number of nodes
