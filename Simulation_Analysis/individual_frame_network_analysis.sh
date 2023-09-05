@@ -1,4 +1,13 @@
 #!/bin/bash
+#SBATCH --job-name="Ana R1-0.01erate"
+#SBATCH -A p31412
+#SBATCH -p short    ## partition
+#SBATCH -N 1  ## number of nodes
+#SBATCH -n 1  ## number of cores
+#SBATCH --output=R-%x.%j.out
+#SBATCH --mem=30G
+#SBATCH --ntasks-per-node=1  ## number of cores
+#SBATCH -t 00:05:00
 
 module load python/anaconda3.6 # Load python/anaconda3.6 on a Linux machine under bash.
 module load matlab # Load matlab on a Linux machine under bash.
