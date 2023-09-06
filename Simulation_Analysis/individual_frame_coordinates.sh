@@ -7,8 +7,8 @@
 ./catdcd -o stretch.pdb -otype pdb -stype psf -s ref.psf -stride 2 stretch_11111.dcd # Change dcd filename to reflect randomseed.
 
 module load octave # Load octave on a Linux machine under bash.
-module load python/anaconda3.6 # Load python/anaconda3.6 on a Linux machine under bash.
 module load matlab # Load matlab on a Linux machien under bash.
+
 octave separate_coordinate_single.m
 
 for i in {1..7..1} # Change this to loop through the number of frames in equil_{randomseed}.dcd divided by the -stride specified by the ./catdcd command above.
