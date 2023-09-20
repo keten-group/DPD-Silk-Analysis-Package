@@ -10,7 +10,7 @@ The following instructions document the procedure to generate, simulate, and ana
 ## Notable changes that were made from the original manuscripts:
 1.	**Generate_Configuration.m** was modified to include the capability of adding ‘sticky’ terminal ends, introducing a 6th bead type to the system. The file was renamed **Generate_Configuration_Sticky.m**.
 2.	The executable, **network_noprint**, made available in supplementary information of Rim et al. was replaced with **network_noprint.py**. This script was written as a direct replacement after running into errors using the original **network_noprint** executable to analyze higher molecular weight chains.
-3.	The LAMMPS input file **equil_shear_stretch_sticky.in** was modified from **equil_shear_stretch.in** to run the LAMMPS simulation with terminal ends.
+3.	The LAMMPS input file **equil_shear_stretch.in** was modified to include parameters for the terminal region sticky ends.
 
 ## Software Packages Used:
 
@@ -63,8 +63,6 @@ See File Description section for details about each file.
 - **Generate_Configuration_Sticky.m**  - Writes ‘.psf’ files and a ‘.data’ to be used as input for a LAMMPS simulation. Simulation parameters such as density, protein volume fraction, and silk motif characteristics can be modified. Modify _repeat_motif_spider_ to define motif repeating units. Modify _num_hydrophobic_spider_ to define the number of ‘a’ beads in an A block. Modify _num_hydrophilic_spider_ to define the number of ‘b’ beads in a B block. Modify _num_histidine_spider_ to define how many ‘b’ beads in the H block. Modify _num_sticky_spider_ to define how many beads to place in each terminal region. OUTPUTS: **spider_....psf, spider_..._protein_only.psf, spider_..._evap.psf, spider_....data**
 
 - **pair_soft_modified.cpp** – Code to overwrite **pair_soft.cpp** when compiling lammps. Pair style soft is then used to implement a nonbonded harmonic potential between ‘a’ type beads to represent harmonic bonds.
-
-- **equil_shear_stretch_sticky.in** – LAMMPS input file to run equilibration, shear, post-shear equilibration, and stretch simulations which includes parameters for bead type ‘c’ sticky terminal regions. Data file name in “# file name” section must match the ‘.data’ file output by **Generate_Configuration_Sticky.m**. INPUTS: Requires **spider_....data**. OUTPUTS: **equil_11111.dcd, equil_11111_unwrap.dcd, shear_11111.dcd, shear_11111_unwrap.dcd, equil_after_shear_11111_unwrap.dcd, equil_after_shear_11111_unwrap.dcd, stretch_11111.dcd, stretch_11111_unwrap.dcd, all_stress_11111.txt**.
 
 - **equil_shear_stretch.in** – LAMMPS input file to run equilibration, shear, post-shear equilibration, and stretch simulations which does not include parameters for bead type ‘c’ sticky terminal regions. Data file name in “# file name” section must match the ‘.data’ file output by **Generate_Configuration_Sticky.m**. INPUTS: Requires **spider_....data**. OUTPUTS: **equil_11111.dcd, equil_11111_unwrap.dcd, shear_11111.dcd, shear_11111_unwrap.dcd, equil_after_shear_11111_unwrap.dcd, equil_after_shear_11111_unwrap.dcd, stretch_11111.dcd, stretch_11111_unwrap.dcd, all_stress_11111.txt**.
 
