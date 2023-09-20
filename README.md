@@ -1,3 +1,13 @@
+<!-- For developers:
+Please use bold font for file names, directories, and file paths.
+Please use italic font for variables.
+Follow heading styles.
+# First-level heading
+## Second-level heading
+### Third-level heading
+See https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax for formatting syntax.
+-->
+
 # DPD Silk Analysis Package
 This is an updated version of the simulation generation and analysis procedure originally published in "Predicting Silk Fiber Mechanical Properties through Multiscale Simulation and Protein Design" ACS Biomaterials Science and Engineering, 2017
 
@@ -88,9 +98,9 @@ See File Description section for details about each file.
 
 - **run_all_node_bridge_multiplicity.sh** - Bash script that runs the matlab script **node_bridge_diagram_multiplicity.m** in each of the directories **equil_evolve_*, shear_evolve_*, and stretch_evolve_***.
 
-- **node_bridge_diagram_multiplicity.m** – Draws a diagram showing nodes and brdiges between them. OUTPUTS: movie.png.
+- **node_bridge_diagram_multiplicity.m** – Draws a diagram showing nodes and brdiges between them. OUTPUTS: **movie.png**.
 
-- **collect_all_movie.py** – Organizes the output ‘movie.png’ files from ‘node_bridge_diagram_multiplicity.m’ into a single directory called ‘movie.’
+- **collect_all_movie.py** – Organizes the output **movie.png** files from **node_bridge_diagram_multiplicity.m** into a single directory called **movie**.
 
 - **Connectivity_Analysis.m** – Conducts a connectivity analysis and outputs figures. OUTPUTS: **ave_size_Crystal_equil.png, ave_size_Crystal_shear.png, ave_size_Crystal_stretch.png, num_Beta_equil.png, num_Beta_shear.png, num_Beta_stretch.png, num_Conn_equil.png, num_Conn_shear.png, num_Conn_stretch.png**.
 
