@@ -27,8 +27,8 @@ variable	maxrepGG equal 25.0
 variable	maxrepAW equal 40.0 
 variable	maxrepGW equal 26.0
 variable	maxrepAG equal 27.0
-variable	EHB equal 3.53
-variable	hEHB equal 3.53		# in case different hEHB is used for 'a' between silkworm and spider
+# variable	EHB equal 3.53 # Commented to switch to tabulated potential.
+# variable	hEHB equal 3.53		# Commented to switch to tabulated potential. In case different hEHB is used for 'a' between silkworm and spider
 
 # add the repulsive interaction parameters for the sticky terminal ends
 variable 	maxrepAC equal 35.0 #higher repulsion of A beads 
@@ -61,11 +61,20 @@ thermo			100
 thermo_style	custom step temp ke pe press pxx pyy pzz pxy lx 
 
 ############# force field setup #########################
-pair_style	hybrid/overlay soft 1.0 dpd ${T} ${cutoff} ${seed}
+# pair_style	hybrid/overlay soft 1.0 dpd ${T} ${cutoff} ${seed} # Commented to switch to tabulated potential.
+
+# pair_coeff	1 1 soft ${EHB} 1.0 # Commented to switch to tabulated potential.
+# pair_coeff	4 4 soft ${EHB} 1.0 # Commented to switch to tabulated potential.
+# pair_coeff	1 4 soft ${hEHB} 1.0 # Commented to switch to tabulated potential.
+
+# Implement Tabulated Potential
+pair_style hybrid/overlay dpd ${T} ${cutoff} ${seed} table linear 1001
+pair_coeff 	1 1 table hbond.txt HBOND_HARMONIC ${cutoff}
+pair_coeff  4 4 table hbond.txt HBOND_HARMONIC ${cutoff} # Use the same potential for silkworm bead type 4.
+pair_coeff  1 4 table hbond.txt HBOND_HARMONIC ${cutoff} # Use the same potential for bonds between silkworm bead type 4 and spider silk bead type 1.
+
+# Assign DPD parameters
 pair_coeff	* * dpd 25.0 ${gamma} 1.0
-pair_coeff	1 1 soft ${EHB} 1.0
-pair_coeff	4 4 soft ${EHB} 1.0
-pair_coeff	1 4 soft ${hEHB} 1.0
 pair_coeff	1 1 dpd ${maxrepAA} ${gamma} 1.0
 pair_coeff	1 2 dpd ${maxrepAG} ${gamma} 1.0
 pair_coeff	2 2 dpd ${maxrepGG} ${gamma} 1.0
@@ -98,6 +107,10 @@ group	chains type 1 2 4 5 6
 group	water type 3
 
 reset_timestep 0
+### Minimization ###
+
+minimize 1.0e-4 1.0e-6 100 1000
+write_restart minimized.restart
 
 ### Equilibration Run ###
 velocity	all create ${T} ${seed} dist gaussian
