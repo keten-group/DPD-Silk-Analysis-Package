@@ -2,9 +2,9 @@
 %%% separate pdb file generation          %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Nequil_shot=7; % Change to match number of frames in equil_{randomseed}.dcd
-Nshear_shot=14; % Change to match number of frames in shear_{randomseed}.dcd
-Nstretch_shot=5; % Change to match number of frames in stretch_{randomseed}.dcd
+Nequil_shot=7; % Change to match number of frames in equil_{randomseed}.pdb
+Nshear_shot=14; % Change to match number of frames in shear_{randomseed}.pdb
+Nstretch_shot=5; % Change to match number of frames in stretch_{randomseed}.pdb
 
 fid = fopen('ref.pdb','r');
 i=0;
