@@ -32,7 +32,7 @@ The following instructions document the procedure to generate, simulate, and ana
 
 ## Software Setup
 ### LAMMPS Setup:
-Download the LAMMPS tarball for the version released on November 17, 2016 from the LAMMPS website (https://download.lammps.org/tars/). Expand the archive in an appropriate location for your new project. Navigate into the directory **lammps-17Nov2016/src** and overwrite **pair_soft.cpp** using the **pair_soft_modified.cpp** filed provided in the directory **DPD-Silk-Analysis-Package/Run_Simulation**. To overwrite, be sure to rename **pair_soft_modified.cpp** to **pair_soft.cpp**. Compile LAMMPS using [make](https://docs.lammps.org/Build_make.html) instructions rather than cmake. Note that the mpi software package is necessary to compile **lmp_mpi**.
+Download the LAMMPS tarball for the version released on November 17, 2016 from the LAMMPS website (https://download.lammps.org/tars/). Expand the archive in an appropriate location for your new project.<!-- Navigate into the directory **lammps-17Nov2016/src** and overwrite **pair_soft.cpp** using the **pair_soft_modified.cpp** filed provided in the directory **DPD-Silk-Analysis-Package/Run_Simulation**. To overwrite, be sure to rename **pair_soft_modified.cpp** to **pair_soft.cpp**. Compile LAMMPS using [make](https://docs.lammps.org/Build_make.html) instructions rather than cmake. Note that the mpi software package is necessary to compile **lmp_mpi**.
 
 ### Octave Setup:
 Install octave packages per the procedure detailed in http://www.gnu.org/software/octave/download.html.
@@ -72,7 +72,7 @@ See File Description section for details about each file.
 
 - **Generate_Configuration_Sticky.m**  - Writes ‘.psf’ files and a ‘.data’ to be used as input for a LAMMPS simulation. Simulation parameters such as density, protein volume fraction, and silk motif characteristics can be modified. Modify _repeat_motif_spider_ to define motif repeating units. Modify _num_hydrophobic_spider_ to define the number of ‘a’ beads in an A block. Modify _num_hydrophilic_spider_ to define the number of ‘b’ beads in a B block. Modify _num_histidine_spider_ to define how many ‘b’ beads in the H block. Modify _num_sticky_spider_ to define how many beads to place in each terminal region. OUTPUTS: **spider_....psf, spider_..._protein_only.psf, spider_..._evap.psf, spider_....data**
 
-- **pair_soft_modified.cpp** – Code to overwrite **pair_soft.cpp** when compiling lammps. Pair style soft is then used to implement a nonbonded harmonic potential between ‘a’ type beads to represent harmonic bonds.
+<!-- - **pair_soft_modified.cpp** – Code to overwrite **pair_soft.cpp** when compiling lammps. Pair style soft is then used to implement a nonbonded harmonic potential between ‘a’ type beads to represent harmonic bonds. -->
 
 - **equil_shear_stretch.in** – LAMMPS input file to run equilibration, shear, post-shear equilibration, and stretch simulations which does not include parameters for bead type ‘c’ sticky terminal regions. Data file name in “# file name” section must match the ‘.data’ file output by **Generate_Configuration_Sticky.m**. INPUTS: Requires **spider_....data**. OUTPUTS: **equil_11111.dcd, equil_11111_unwrap.dcd, shear_11111.dcd, shear_11111_unwrap.dcd, equil_after_shear_11111_unwrap.dcd, equil_after_shear_11111_unwrap.dcd, stretch_11111.dcd, stretch_11111_unwrap.dcd, all_stress_11111.txt**.
 
@@ -111,6 +111,11 @@ See File Description section for details about each file.
 - **run_all_network_conductance.sh** – Bash script that runs the MATLAB script **Network_Conductance.m** in each of the directories **equil_evolve_*, shear_evolve_*, and stretch_evolve_***.
 
 - **ss_analysis.py** – Plot the effective stress versus strain and output as **ss_analysis_out/effective_stress.png**.
+
+- **Hydrogen_Bond_Potential.ipynb** - This script plots the harmonic potential between beads meant to represent hydrogen bonds formed in the beta-sheet forming region of silk and saves them in **hbond.txt**
+  
+- **equil_shear_stretch_tabulated.in** - This script runs simulations using the potential in **hbond.txt**
+  
 
 
 
