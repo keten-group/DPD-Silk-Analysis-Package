@@ -52,7 +52,7 @@ variable	nrepeat equal ${nfreq}*0.5
 timestep	0.03
 
 atom_style	bond
-comm_modify mode single vel yes
+comm_modify mode single vel yes cutoff 0.0
 
 # INPUT and OUTPUT
 read_data	${name}.data
