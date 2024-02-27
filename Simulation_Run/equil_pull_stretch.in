@@ -27,8 +27,8 @@ variable	maxrepGG equal 25.0
 variable	maxrepAW equal 40.0 
 variable	maxrepGW equal 26.0
 variable	maxrepAG equal 27.0
-#variable	EHB equal 3.53 # Uncomment to use pair_soft.cpp.
-#variable	hEHB equal 3.53		# in case different hEHB is used for 'a' between silkworm and spider. Uncomment to use pair_soft.cpp
+# variable	EHB equal 3.53 # Commented to switch to tabulated potential.
+# variable	hEHB equal 3.53		# Commented to switch to tabulated potential. In case different hEHB is used for 'a' between silkworm and spider
 
 # add the repulsive interaction parameters for the sticky terminal ends
 variable 	maxrepAC equal 35.0 #higher repulsion of A beads 
@@ -38,10 +38,10 @@ variable	maxrepCC equal 25.0 #same self repulsion for all beads
 
 # number of timesteps
 variable	dumpfreq equal 15000
-variable 	dumpfreqshear equal 15000
+variable 	dumpfreqpull equal 15000
 variable	dumpfreqstretch equal 10000 # dump frequency for stretch simulation
 variable	tot_equil_step equal 210000
-variable	tot_shear_step equal 420000
+variable	tot_pull_step equal 420000 # Renamed variable from tot_shear_step to tot_pull_step
 variable	tot_equilafter_step equal 150000
 variable	tot_stretch_step equal 100000
 
@@ -52,7 +52,7 @@ variable	nrepeat equal ${nfreq}*0.5
 timestep	0.03
 
 atom_style	bond
-comm_modify mode single vel yes
+comm_modify mode single vel yes cutoff 0.0 # cutoff 0.0 sets ghost atom communication cutoff to default, which is cutoff for pairwise interactions + skin distance for neighbor lists. If 'bond atoms missing on processor' is encountered, increase this cutoff distance to accommodate stretched bonds.
 
 # INPUT and OUTPUT
 read_data	${name}.data
@@ -61,21 +61,20 @@ thermo			100
 thermo_style	custom step temp ke pe press pxx pyy pzz pxy lx 
 
 ############# force field setup #########################
+# pair_style	hybrid/overlay soft 1.0 dpd ${T} ${cutoff} ${seed} # Commented to switch to tabulated potential.
 
-#pair_style	hybrid/overlay soft 1.0 dpd ${T} ${cutoff} ${seed} # Uncomment this line to use pair_soft.cpp
+# pair_coeff	1 1 soft ${EHB} 1.0 # Commented to switch to tabulated potential.
+# pair_coeff	4 4 soft ${EHB} 1.0 # Commented to switch to tabulated potential.
+# pair_coeff	1 4 soft ${hEHB} 1.0 # Commented to switch to tabulated potential.
 
-####### Tabular Potential
+# Implement Tabulated Potential
+pair_style hybrid/overlay dpd ${T} ${cutoff} ${seed} table linear 1001
+pair_coeff 	1 1 table hbond.txt HBOND_HARMONIC ${cutoff}
+pair_coeff  4 4 table hbond.txt HBOND_HARMONIC ${cutoff} # Use the same potential for silkworm bead type 4.
+pair_coeff  1 4 table hbond.txt HBOND_HARMONIC ${cutoff} # Use the same potential for bonds between silkworm bead type 4 and spider silk bead type 1.
 
-pair_style hybrid/overlay dpd ${T} ${cutoff} ${seed} table linear 1002
-pair_coeff 	1 1 table hbond.txt HBOND_HARMONIC 0.999
-pair_coeff  4 4 table hbond.txt HBOND_HARMONIC 0.999 # Use the same potential for silkworm bead type 4.
-
-####### End Tabular Potential
-
+# Assign DPD parameters
 pair_coeff	* * dpd 25.0 ${gamma} 1.0
-#pair_coeff	1 1 soft ${EHB} 1.0 # Uncomment to use soft potential.
-#pair_coeff	4 4 soft ${EHB} 1.0 # Uncomment to use soft potential.
-#pair_coeff	1 4 soft ${hEHB} 1.0 # Uncomment to use soft potential.
 pair_coeff	1 1 dpd ${maxrepAA} ${gamma} 1.0
 pair_coeff	1 2 dpd ${maxrepAG} ${gamma} 1.0
 pair_coeff	2 2 dpd ${maxrepGG} ${gamma} 1.0
@@ -109,6 +108,11 @@ group	water type 3
 
 reset_timestep 0
 
+### Minimization ###
+
+minimize 1.0e-4 1.0e-6 100 1000
+write_restart minimized.restart
+
 ### Equilibration Run ###
 velocity	all create ${T} ${seed} dist gaussian
 dump		myDump-equil chains dcd ${dumpfreq} equil_${seed}.dcd
@@ -121,28 +125,46 @@ write_restart	equil_${seed}.restart
 undump			myDump-equil
 undump 			myDump-equil-unwrap
 
-### Shear Run ###
+### Pull Run ###
+
+# Group atoms at the left and right ends of each chain based on the configuration in the last frame of free equilibration.
+variable headtailtag atomfile tag.txt
+variable leftid atom "v_headtailtag>=1"
+group leftend variable leftid
+variable rightid atom "v_headtailtag<=-1"
+group rightend variable rightid
+
+# Add force to the two ends of each chain and rescale the temperature.
+variable xfleft equal -0
+variable xfright equal 0
 restart ${dumpfreq} restart1 restart2
-fix		shear1 all deform 1 xy erate ${shearrate} units box remap v
-dump	myDump-shear chains dcd ${dumpfreqshear} shear_${seed}.dcd
-dump	myDump-shear-unwrap chains dcd ${dumpfreqshear} shear_${seed}_unwrap.dcd
-dump_modify 		myDump-shear-unwrap unwrap yes
-run		${tot_shear_step}
+fix 	pull1 leftend addforce ${xfleft} 0.0 0.0
+fix 	pull2 rightend addforce ${xfright} 0.0 0.0
+fix 	2 all temp/rescale 100 ${T} ${T} 0.05 1.0
 
-write_restart	shear_${seed}.restart
-undump			myDump-shear
-undump 			myDump-shear-unwrap
+dump	myDump-pull chains dcd ${dumpfreq} pull_${seed}.dcd
+dump	myDump-pull-unwrap chains dcd ${dumpfreq} pull_${seed}-unwrap.dcd
+dump_modify myDump-pull-unwrap unwrap yes
 
-### Equilibration after Shear to Relax stress ###
-unfix	shear1
-dump	myDump-equilaftershear chains dcd ${dumpfreq} equil_after_shear_${seed}.dcd
-dump	myDump-equilaftershear-unwrap chains dcd ${dumpfreq} equil_after_shear_${seed}_unwrap.dcd
-dump_modify 		myDump-equilaftershear-unwrap unwrap yes
+run		${tot_pull_step}
+
+write_restart	pull_${seed}.restart
+undump			myDump-pull
+undump			myDump-pull-unwrap
+
+### Equilibration after Pull to Relax stress ###
+unfix	pull1
+unfix 	pull2
+unfix 	2
+
+dump	myDump-equilafterpull chains dcd ${dumpfreq} equil_after_pull_${seed}.dcd
+dump	myDump-equilafterpull-unwrap chains dcd ${dumpfreq} equil_after_pull_${seed}_unwrap.dcd
+dump_modify 		myDump-equilafterpull-unwrap unwrap yes
 run		${tot_equilafter_step}
 
-write_restart	shear_relaxed_${seed}.restart
-undump			myDump-equilaftershear
-undump 			myDump-equilaftershear-unwrap
+write_restart	pull_relaxed_${seed}.restart
+undump			myDump-equilafterpull
+undump 			myDump-equilafterpull-unwrap
 
 ### Stretch by two times ###
 fix		2 all deform ${nfreq} x scale 2.0 y volume z volume
