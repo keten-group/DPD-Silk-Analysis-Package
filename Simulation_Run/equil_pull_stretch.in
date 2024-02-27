@@ -143,7 +143,7 @@ fix 	pull2 rightend addforce ${xfright} 0.0 0.0
 fix 	2 all temp/rescale 100 ${T} ${T} 0.05 1.0
 
 dump	myDump-pull chains dcd ${dumpfreq} pull_${seed}.dcd
-dump	myDump-pull-unwrap chains dcd ${dumpfreq} pull_${seed}-unwrap.dcd
+dump	myDump-pull-unwrap chains dcd ${dumpfreq} pull_${seed}_unwrap.dcd
 dump_modify myDump-pull-unwrap unwrap yes
 
 run		${tot_pull_step}
