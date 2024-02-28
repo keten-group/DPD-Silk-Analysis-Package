@@ -118,8 +118,9 @@ variable rightid atom "v_headtailtag<=-1"
 group rightend variable rightid
 
 # Add force to the two ends of each chain and rescale the temperature.
-variable xfleft equal -10
-variable xfright equal 10
+variable pullforce equal 10
+variable xfleft equal -${pullforce}
+variable xfright equal ${pullforce}
 restart ${dumpfreq} restart1 restart2
 fix 	pull1 leftend addforce ${xfleft} 0.0 0.0
 fix 	pull2 rightend addforce ${xfright} 0.0 0.0
