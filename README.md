@@ -34,6 +34,7 @@ The following instructions document the procedure to generate, simulate, and ana
 ## Software Setup
 ### LAMMPS Setup:
 Download the LAMMPS tarball for the version released on November 17, 2016 from the LAMMPS website (https://download.lammps.org/tars/). Expand the archive in an appropriate location for your new project.<!-- Navigate into the directory **lammps-17Nov2016/src** and overwrite **pair_soft.cpp** using the **pair_soft_modified.cpp** filed provided in the directory **DPD-Silk-Analysis-Package/Run_Simulation**. To overwrite, be sure to rename **pair_soft_modified.cpp** to **pair_soft.cpp**. Compile LAMMPS using [make](https://docs.lammps.org/Build_make.html) instructions rather than cmake. Note that the mpi software package is necessary to compile **lmp_mpi**.
+-->
 
 ### Octave Setup:
 Install octave packages per the procedure detailed in http://www.gnu.org/software/octave/download.html.
@@ -59,7 +60,9 @@ See File Description section for details about each file.
 5)	In the LAMMPS input file, **pull_stretch.in**, ensure that the read_restart command calls the restart file **equil_11111.restart**.
 6)	Change the variable pullforce in **pull_stretch.in** to reflect the desired pull force to be applied to the left and right ends of each chain.
 7) 	In the file **submit.sh**, change the variable _lmp_ to the path to your compiled lammps executable. Change the mpirun command as necessary to specify input script **pull_stretch.in** (-in), number of processors (-np), and name of lammps log file (-log). Change or remove the options specified in lines beginning with #SBATCH as necessary.
-
+#### Conducting an Analysis of Order Parameter for a Pulling Simulation – Use files in directory ‘Simulation_Analysis’
+1) Copy the file **Simulation_Analysis/order_para.py** into the directory with your completed pull simulation.
+2) In **orderpara.py**, change the variables randseed, psf_protein_only, equil_dcd, and pull_dcd to match the random seed, psf with '_protein_only.psf' appended, unwrapped 'dcd' file **equil_11111_unwrap.dcd**, and unwrapped 'dcd' file **pull_11111_unwrap.dcd**. The variable 'nochain' specifies the number of chains to be analyzed. Chain this value to the desired number of chains to be analyzed. Run the script using the command 'python orderpara.py', which will output an image of orderparameter plotted against frame number (**order_his.png**) and a pickled file with order parameter data stored (**order_his.pkl**).
 ### Analyzing a Sample Simulation – Use files in directory ‘Simulation_Analysis’
 1)	Copy the output files from the LAMMPS simulation into the directory **DPD-Silk-Analysis-Package/Simulation_Analysis** (**equil_11111.dcd, equil_11111_unwrap.dcd, shear_11111.dcd, shear_11111_unwrap.dcd, equil_after_shear_11111.dcd, equil_after_shear_11111_unwrap.dcd, stretch_11111.dcd, stretch_11111_unwrap.dcd, all_stress_11111.txt**). 
 2)	Copy the psf file without water (the file with the “protein_only.psf” extension) as **ref.psf** into this directory. 
