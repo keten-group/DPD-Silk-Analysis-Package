@@ -21,7 +21,8 @@ The following instructions document the procedure to generate, simulate, and ana
 1.	**Generate_Configuration.m** was modified to include the capability of adding ‘sticky’ terminal ends, introducing a 6th bead type to the system. The file was renamed **Generate_Configuration_Sticky.m**.
 2.	The executable, **network_noprint**, made available in supplementary information of Rim et al. was replaced with **network_noprint.py**. This script was written as a direct replacement after running into errors using the original **network_noprint** executable to analyze higher molecular weight chains.
 3.	The LAMMPS input file **equil_shear_stretch.in** was modified to include parameters for the terminal region sticky ends.
-
+4.	Originally, the harmonic nonbonded potential between crystal forming domains was simulated by overwriting pair_soft.cpp in the LAMMPS, November 17th, 2016 version. This same potential is now implemented using a tabulated potential, removing the need to overwrite pair_soft.cpp before compiling LAMMPS. That tabulated potential is printed in **hbond.txt**, which is written by running the Jupyter Notebook **Hydrogen_Bond_Potential/Hydrogen_Bond_Potential.ipynb**.
+5.	A workflow is added to induce end to end chain ordering by adding equal and opposite pull forces to either end of each chain. This processing step can be run using the code in LAMMPS input file **equil_pull_stretch.in**.
 ## Software Packages Used:
 
 - LAMMPS: Large-scale Atomic/Molecular Massively Parallel Simulator (LAMMPS) is a molecular dynamics program from Sandia National Laboratories. The LAMMPS software and its installation manual can be found at http://lammps.sandia.gov/. Here we assume software is installed under the Linux environment. We used the LAMMPS, November 17th, 2016 version.
@@ -45,9 +46,18 @@ See File Description section for details about each file.
 
 ### Running a Sample Simulation – Use files in directory ‘Simulation_Run’
 1)	Generate initial configurations of randomly distributed peptide chains in a water box in the form of ".psf" and LAMMPS “.data” using **Generate_Configuration_Sticky.m**. See file description for more details.
-2)	In the LAMMPS input file, the name of the data file generated in the previous step should be modified (inside the “#file name” section).
+2)	In the LAMMPS input file, **equil_shear_stretch.in**, the name of the data file generated in the previous step should be modified (inside the “#file name” section).
 3)	In the file **submit.sh**, change the variable _lmp_ to the path to your compiled lammps executable. Change the mpirun command as necessary to specify number of processors (-np) and name of lammps log file (-log). Change or remove the options specified in lines beginning with #SBATCH as necessary. Current #SBATCH options are compatible with [Northwestern Quest Computing Cluster](https://www.it.northwestern.edu/departments/it-services-support/research/computing/quest/). This step will generate the following “dcd” trajectory and stress data files: **equil_11111.dcd, equil_11111_unwrap.dcd, shear_1111.dcd, shear_11111_unwrap.dcd, equil_after_shear_11111.dcd, equil_after_shear_11111_unwrap.dcd, stretch_11111.dcd, stretch_11111_unwrap.dcd, all_stress_11111.txt**.
-4)	Once the simulation has completed, open VMD and run the command ‘source view.vmd’ to generate a visually appealing representation of the simulation.
+4)	To run a simulation with the pull force run instead of shear run, repeat steps 2 and 3 with files **equil_pull_stretch.in** and **submit_pull.sh**.
+5)	Once the simulation has completed, open VMD and run the command ‘source view.vmd’ or 'source view_pull.vmd' to generate a visually appealing representation of the simulation.
+
+### Running a Simulation with Pull Force Instead of Shear - Use files in the directory 'Simulation_Run'
+1)	Generate initial configurations of randomly distributed peptide chains in a water box in the form of ".psf" and LAMMPS “.data” using **Generate_Configuration_Sticky.m**. See file description for more details.
+2)	In the LAMMPS input file, **equil_shear_stretch.in**, the name of the data file generated in the previous step should be modified (inside the "#file name" section). Delete the '### Shear Run ###' section and all commands following it.
+3)	In the file **submit.sh**, change the variable _lmp_ to the path to your compiled lammps executable. Change the mpirun command as necessary to specify number of processors (-np) and name of lammps log file (-log). Change or remove the options specified in lines beginning with #SBATCH as necessary. Current #SBATCH options are compatible with [Northwestern Quest Computing Cluster](https://www.it.northwestern.edu/departments/it-services-support/research/computing/quest/). This step will generate the following “dcd” trajectory and restart files: **equil_11111.dcd, equil_11111_unwrap.dcd, equil_11111.restart**.
+4)  Run the commands in extract_tag.ipynb using Jupyter Notebook, changing the variable randseed,
+5)	In the LAMMPS input file, **pull_stretch.in**,  
+1)	To simulate a pull force run instead of shear run, restart the simulation using the restart file **equil_11111.restart**, which is saved at the end of the equilibration run in **equil_shear_stretch.in**
 
 ### Analyzing a Sample Simulation – Use files in directory ‘Simulation_Analysis’
 1)	Copy the output files from the LAMMPS simulation into the directory **DPD-Silk-Analysis-Package/Simulation_Analysis** (**equil_11111.dcd, equil_11111_unwrap.dcd, shear_11111.dcd, shear_11111_unwrap.dcd, equil_after_shear_11111.dcd, equil_after_shear_11111_unwrap.dcd, stretch_11111.dcd, stretch_11111_unwrap.dcd, all_stress_11111.txt**). 
