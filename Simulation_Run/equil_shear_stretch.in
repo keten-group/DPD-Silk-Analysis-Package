@@ -144,22 +144,30 @@ unfix	shear1
 dump	myDump-equilaftershear chains dcd ${dumpfreq} equil_after_shear_${seed}.dcd
 dump	myDump-equilaftershear-unwrap chains dcd ${dumpfreq} equil_after_shear_${seed}_unwrap.dcd
 dump_modify 		myDump-equilaftershear-unwrap unwrap yes
-run		${tot_equilafter_step}
 
-write_restart	shear_relaxed_${seed}.restart
-undump			myDump-equilaftershear
-undump 			myDump-equilaftershear-unwrap
-
-### Stretch by two times ###
-fix		2 all deform ${nfreq} x scale 2.0 y volume z volume
-dump	myDump-stretch chains dcd ${dumpfreqstretch} stretch_${seed}.dcd
-dump	myDump-stretch-unwrap chains dcd ${dumpfreqstretch} stretch_${seed}_unwrap.dcd
-dump_modify 	myDump-stretch-unwrap unwrap yes
+# Track stress during relaxation step.
 
 compute	stress_a all stress/atom NULL
 compute	stress_c chains stress/atom NULL
 compute	s_a all reduce sum c_stress_a[1] c_stress_a[2] c_stress_a[3] c_stress_a[4] c_stress_a[5] c_stress_a[6]
 compute	s_c chains reduce sum c_stress_c[1] c_stress_c[2] c_stress_c[3] c_stress_c[4] c_stress_c[5] c_stress_c[6]
+
+fix 	stressout_relax_a all ave/time ${nevery} ${nrepeat} ${nfreq} c_s_a[1] c_s_a[2] c_s_a[3] c_s_a[4] c_s_a[5] c_s_a[6] file all_stress_relax_${seed}.txt
+fix 	stressout_relax_c all ave/time ${nevery} ${nrepeat} ${nfreq} c_s_c[1] c_s_c[2] c_s_c[3] c_s_c[4] c_s_c[5] c_s_c[6] file chains_stress_relax_${seed}.txt
+
+run		${tot_equilafter_step}
+
+write_restart	shear_relaxed_${seed}.restart
+undump			myDump-equilaftershear
+undump 			myDump-equilaftershear-unwrap
+unfix 	stressout_relax_a
+unfix 	stressout_relax_c
+
+### Deform to stretch ratio 10 ###
+fix		2 all deform ${nfreq} x scale 10.0 y volume z volume
+dump	myDump-stretch chains dcd ${dumpfreqstretch} stretch_${seed}.dcd
+dump	myDump-stretch-unwrap chains dcd ${dumpfreqstretch} stretch_${seed}_unwrap.dcd
+dump_modify 	myDump-stretch-unwrap unwrap yes
 
 fix		stressout_a all ave/time ${nevery} ${nrepeat} ${nfreq} c_s_a[1] c_s_a[2] c_s_a[3] c_s_a[4] c_s_a[5] c_s_a[6] file all_stress_${seed}.txt
 fix		stressout_c chains ave/time ${nevery} ${nrepeat} ${nfreq} c_s_c[1] c_s_c[2] c_s_c[3] c_s_c[4] c_s_c[5] c_s_c[6] file chains_stress_${seed}.txt
@@ -169,4 +177,6 @@ run		${tot_stretch_step}
 write_restart	stretch_${seed}.restart
 undump	myDump-stretch
 undump 	myDump-stretch-unwrap
-
+unfix 	stressout_a
+unfix 	stressout_c
+unfix 	2
