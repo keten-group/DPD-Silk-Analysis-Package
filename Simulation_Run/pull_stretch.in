@@ -172,8 +172,8 @@ undump 			myDump-equilafterpull-unwrap
 unfix 	stressout_relax_a
 unfix 	stressout_relax_c
 
-### Deform to stretch ratio 5 ###
-fix		2 all deform ${nfreq} x scale 5.0 y volume z volume
+### Deform to stretch ratio 10 ###
+fix		2 all deform ${nfreq} x scale 10.0 y volume z volume
 dump	myDump-stretch chains dcd ${dumpfreqstretch} stretch_${seed}.dcd
 dump	myDump-stretch-unwrap chains dcd ${dumpfreqstretch} stretch_${seed}_unwrap.dcd
 dump_modify 	myDump-stretch-unwrap unwrap yes
