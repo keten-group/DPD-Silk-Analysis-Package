@@ -27,7 +27,7 @@ The following instructions document the procedure to generate, simulate, and ana
 5.	A workflow is added to induce end to end chain ordering by adding equal and opposite pull forces to either end of each chain. This processing step can be run using the code in LAMMPS input file **pull_stretch.in**.
 ## Software Packages Used:
 
-- LAMMPS: Large-scale Atomic/Molecular Massively Parallel Simulator (LAMMPS) is a molecular dynamics program from Sandia National Laboratories. The LAMMPS software and its installation manual can be found at https://docs.lammps.org/Install.html. Here we assume software is installed under the Linux environment. We used the LAMMPS, November 17th, 2016 version.
+- LAMMPS: Large-scale Atomic/Molecular Massively Parallel Simulator (LAMMPS) is a molecular dynamics program from Sandia National Laboratories. The LAMMPS software and its installation manual can be found at https://docs.lammps.org/Install.html. Here we assume software is installed under the Linux environment. We used the LAMMPS, November 17th, 2016 version, which should be built using 'make' commands as opposed to 'cmake' commands (see: https://docs.lammps.org/Build_make.html).
 
 - OCTAVE: Octave is a free open-source programming language primarily intended for numerical computations. It is compatible with MATLAB and can be downloaded from (http://www.gnu.org/software/octave/download.html). In this paper, we assume software is installed under the Linux environment.
 
