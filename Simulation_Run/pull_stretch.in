@@ -57,7 +57,7 @@ atom_style	bond
 #read_data	${name}.data
 read_restart equil_${seed}.restart
 
-comm_modify mode multi cutoff/multi 1*2 3.0 cutoff/multi 3 0.0 # cutoff multi allows the communication distance for bonded atom types (1 and 2) to be communicated beyond the ghost atom communication cutoff, which equals pairwise cutoff distance + skin distance.
+comm_modify mode multi cutoff/multi 1*2 3.0 cutoff/multi 3 0.0 vel yes # cutoff multi allows the communication distance for bonded atom types (1 and 2) to be communicated beyond the ghost atom communication cutoff, which equals pairwise cutoff distance + skin distance.
 #comm_modify mode single vel yes cutoff 0.0 # cutoff 0.0 sets ghost atom communication cutoff to default, which is cutoff for pairwise interactions + skin distance for neighbor lists. If 'bond atoms missing on processor' is encountered, increase this cutoff distance to accommodate stretched bonds.
 
 thermo			100
