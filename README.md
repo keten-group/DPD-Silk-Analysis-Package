@@ -92,7 +92,7 @@ See File Description section for details about each file.
 
 - **equil_shear_stretch.in** – LAMMPS input file to run equilibration, shear, post-shear equilibration, and stretch simulations which does not include parameters for bead type ‘c’ sticky terminal regions. Data file name in “# file name” section must match the ‘.data’ file output by **Generate_Configuration_Sticky.m**. INPUTS: Requires **spider_....data**. OUTPUTS: **equil_11111.dcd, equil_11111_unwrap.dcd, shear_11111.dcd, shear_11111_unwrap.dcd, equil_after_shear_11111_unwrap.dcd, equil_after_shear_11111_unwrap.dcd, stretch_11111.dcd, stretch_11111_unwrap.dcd, all_stress_11111.txt**.
 
-- **view.vmd** – Generates an appealing visualization for the default simulation. Run this script in VMD using the command ‘source view.vmd’.
+- **view.vmd** – Generates an appealing visualization for the default simulation. Run this script in VMD using the command ‘source view.vmd’. Comment and uncomment 'mol addfile' commands as necessary to load correct .dcd files. Change the 'set data_filename' and 'set seed' commands at the top reflect the name of the lammps data file used for your simulation and the chosen random seed respectively.
 
 - **submit.sh** – Bash commands necessary to run the LAMMPS simulation using mpi.
 
