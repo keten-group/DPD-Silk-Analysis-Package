@@ -18,17 +18,38 @@ mol new ${data_filename}_protein_only_for_visualization.psf
 
 # load wrapped trajectories
 
+if { [file exists equil_${seed}.dcd] } {
 mol addfile equil_${seed}.dcd waitfor all
-mol addfile shear_${seed}.dcd waitfor all
-mol addfile equil_after_shear_${seed}.dcd waitfor all
-mol addfile stretch_${seed}.dcd waitfor all
+}
+
+# Load shear or pull depending on which file exists.
+if { [file exists shear_${seed}.dcd] == 1} {
+	mol addfile shear_${seed}.dcd waitfor all
+}
+if { [file exists pull_${seed}.dcd] == 1} {
+	mol addfile pull_${seed}.dcd waitfor all
+}
+if { [file exists equil_after_shear_${seed}.dcd] == 1} {
+	mol addfile equil_after_shear_${seed}.dcd waitfor all
+}
+if { [file exists stretch_${seed}.dcd] == 1} {
+	mol addfile stretch_${seed}.dcd waitfor all
+}
 
 # load unwrapped trajectories
 
-#mol addfile equil_${seed}_unwrap.dcd waitfor all
-#mol addfile shear_${seed}_unwrap.dcd waitfor all
-#mol addfile equil_after_shear_${seed}_unwrap.dcd waitfor all
-#mol addfile stretch_${seed}_unwrap.dcd waitfor all
+if { [file exists shear_${seed}_unwrap.dcd] == 1} {
+	mol addfile shear_${seed}_unwrap.dcd waitfor all
+}
+if { [file exists pull_${seed}_unwrap.dcd] == 1} {
+	mol addfile pull_${seed}_unwrap.dcd waitfor all
+}
+if { [file exists equil_after_shear_${seed}_unwrap.dcd] == 1} {
+	mol addfile equil_after_shear_${seed}_unwrap.dcd waitfor all
+}
+if { [file exists stretch_${seed}_unwrap.dcd] == 1} {
+	mol addfile stretch_${seed}_unwrap.dcd waitfor all
+}
 
 # set representation
 
