@@ -27,7 +27,7 @@ def order_his(u, sid):
 
 # Set simulation-specific variables specifying random seed used and dcd files to be analyzed.
 randseed = '11111'
-psf_protein_only = 'spider_HA1B1A1B1x2134_silkworm_A1B1x0_protein_only.psf'
+psf_protein_only = 'spider_HA1B1A1B1x2134_silkworm_A1B1x0_protein_only_for_visualization.psf'
 equil_dcd = f'equil_{randseed}_unwrap.dcd'
 shear_dcd = f'shear_{randseed}_unwrap.dcd'
 pull_dcd = f'pull_{randseed}_unwrap.dcd'
