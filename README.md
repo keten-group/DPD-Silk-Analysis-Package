@@ -72,6 +72,7 @@ See File Description section for details about each file.
 1) To count different types of hydrogen bonds in the first frame of the stretch simulation, just before deformation begins, first run the script **view.vmd** which will make a file with **protein_only_for_visualization.psf** appended. This psf has a slightly different format than the psf that only has **protein_only.psf** appended. Then in the file **Count_HBonds.ipynb**, change variables rand_seed, dcd_list, and psf_file to reflect the paths to the random seed in the dcd filenames, path to the dcd file with the stretch deformation, and the psf file ending with **protein_only_for_visualization.psf**. Run all the cells in the file. It will print the number of each type of hydrogen bond and save a pickle file containing those values in the folder **Count_HBonds_out**.
 
 ### Analyzing a Sample Simulation – Use files in directory ‘Simulation_Analysis’
+The following instructions come from Rim et al., citation 2 above.
 1)	Copy the output files from the LAMMPS simulation into the directory **DPD-Silk-Analysis-Package/Simulation_Analysis** (**equil_11111.dcd, equil_11111_unwrap.dcd, shear_11111.dcd, shear_11111_unwrap.dcd, equil_after_shear_11111.dcd, equil_after_shear_11111_unwrap.dcd, stretch_11111.dcd, stretch_11111_unwrap.dcd, all_stress_11111.txt**). 
 2)	Copy the psf file without water (the file with the “protein_only.psf” extension) as **ref.psf** into this directory. 
 3)	Copy the LAMMPS data file as **ref.data** into this directory.
