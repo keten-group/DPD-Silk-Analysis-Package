@@ -63,7 +63,7 @@ See File Description section for details about each file.
 7) 	In the file **submit.sh**, change the variable _lmp_ to the path to your compiled lammps executable. Change the mpirun command as necessary to specify input script **pull_stretch.in** (-in), number of processors (-np), and name of lammps log file (-log). Change or remove the options specified in lines beginning with #SBATCH as necessary. Run **submit.sh** with the 'sbatch' command.
 
 ### Conducting an Analysis of Order Parameter for a Pulling Simulation – Use files in directory ‘Simulation_Analysis’
-1) Copy the file **Simulation_Analysis/order_para.py** into the directory with your completed pull simulation.
+1) Copy the file **Simulation_Analysis/orderpara.py** into the directory with your completed pull simulation.
 2) In **orderpara.py**, change the variables _randseed_, _psf_protein_only_, _equil_dcd_, and _pull_dcd_ to match the random seed, psf with '_protein_only_for_visualization.psf' appended, unwrapped 'dcd' file **equil_11111_unwrap.dcd**, and unwrapped 'dcd' file **pull_11111_unwrap.dcd**. The variable _nochain_ specifies the number of chains to be analyzed. Change this value to the desired number of chains to be analyzed. Run the script using the command 'python orderpara.py', which will output an image of orderparameter plotted against frame number (**order_his.png**) and a pickled file with order parameter data stored (**order_his.pkl**).
 ### Conducting an Analysis of EEL for a Pulling Simulation - Use file in directory 'Simulation_Analysis'
 1) Copy the file **Simulation_Analysis/eel.py** into the directory with your completed pull simulation.
