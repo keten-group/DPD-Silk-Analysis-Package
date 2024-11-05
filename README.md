@@ -17,7 +17,7 @@ The following instructions document the procedure to generate, simulate, and ana
 
 2.	Nae-Gyune Rim, Erin G. Roberts, Davoud Ebrahimi et al. Predicting Silk Fiber Mechanical Properties through Multiscale Simulation and Protein Design, ACS Biomaterials Science & Engineering 2017 3 (8), 1542-1556 [DOI: 10.1021/acsbiomaterials.7b00292](https://doi.org/10.1021/acsbiomaterials.7b00292)
 
-3.	Graham, J. J., Subramani, S. V., Yang, X., Russell, T. M., Zhang, F., Keten, S. Charting the envelope of mechanical properties of synthetic silk fibers through predictive modeling of the drawing process. Sci Adv (2025).
+3.	Graham, J. J., Subramani, S. V., Yang, X., Russell, T. M., Zhang, F., Keten, S. Charting the envelope of mechanical properties of synthetic silk fibers through predictive modeling of the drawing process. Science Advances (2024).
 
 ## Notable changes that were made from Rim et al.:
 1.	**Generate_Configuration.m** was modified to include the capability of adding ‘sticky’ terminal ends, introducing a 6th bead type to the system. The file was renamed **Generate_Configuration_Sticky.m**.
