@@ -29,11 +29,12 @@ def eel_his(u, sid):
 
 # Set simulation-specific variables specifying random seed used and dcd files to be analyzed.
 randseed = '11111'
-psf_protein_only = 'spider_HA1B1A1B1x2134_silkworm_A1B1x0_protein_only_for_visualization.psf'
+psf_protein_only = 'spider_HA1B1A1B1x2134_silkworm_A1B1x0_protein_only.psf'
 equil_dcd = f'equil_{randseed}_unwrap.dcd'
 shear_dcd = f'shear_{randseed}_unwrap.dcd'
 pull_dcd = f'pull_{randseed}_unwrap.dcd'
 relax_dcd = f'equil_after_shear_{randseed}_unwrap.dcd'
+pull_relax_dcd = f'equil_after_pull_{randseed}_unwrap.dcd'
 tensile_dcd = f'stretch_{randseed}_unwrap.dcd'
 
 # For shear simulation.
@@ -44,7 +45,7 @@ u = mda.Universe(f'{psf_protein_only}',
 # For pull simulation. Uncomment the below universe command and comment the above universe command.
 # Load all dcd files and protein only psf into an MDAnalysis universe.
 # u = mda.Universe(f'{psf_protein_only}', 
-                # [f'{equil_dcd}',f'{pull_dcd}',f'{relax_dcd}',f'{tensile_dcd}'],in_memory=True)
+                # [f'{equil_dcd}',f'{pull_dcd}',f'{pull_relax_dcd}',f'{tensile_dcd}'],in_memory=True)
 
 # Calculate end to end length using the function eel_his.
 nofr = len(u.trajectory) # Number of frames in the trajectory
@@ -68,7 +69,7 @@ plt.xlabel('frame no.')
 plt.ylabel(f"End to End Length")
 plt.tight_layout()
 plt.savefig(f'eel_his.png', dpi=200)
-plt.close()
+
 
 
 
