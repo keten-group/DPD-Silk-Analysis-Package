@@ -137,6 +137,8 @@ See File Description section for details about each file.
 
 - **orderpara.py** - A python script that outputs the Hermans Order Parameter for the simulated chains.
 
+- **eel.py** - A python script that outputs the end-to-end length for the simulated chains.
+
 - **pull_stretch.in** - A LAMMPS input file containing the commands to restart a simulation after equilibration to complete a pull force processing run and tensile test simulation.
 
 - **extract_tag.ipynb** - A Jupyter Notebook, which is used to identify which ends of each chain are closer to the left and right side of the simulation box (-x and +x directions). This information is stored and output in the file **tag.txt**, which is called by **pull_stretch.in**.
